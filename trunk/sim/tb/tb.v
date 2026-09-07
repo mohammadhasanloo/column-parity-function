@@ -21,6 +21,11 @@ module TB #(parameter WIDTH = 25)();
     always #(5) clk = ~clk;
 
     initial begin
+        $dumpfile("colparity.vcd");
+        $dumpvars(0, TB);
+    end
+
+    initial begin
 		for(i=0;i<testscounts;i=i+1) begin
 		    $sformat(input_file_name, "./file/input_%0d.txt", i);
             $sformat(output_file_name, "./file/output_%0d.txt", i);
@@ -42,7 +47,8 @@ module TB #(parameter WIDTH = 25)();
 				end else begin
 				    pre_input = Mem[k-1];
 				end
-				#540
+				@(posedge UUT.MemRead);
+				@(negedge clk);
 				$fwrite(output_file, "%b\n", data_out);
 				$display("----\n%b\n%b\n----\n", curr_input, data_out);
 			end
@@ -50,6 +56,6 @@ module TB #(parameter WIDTH = 25)();
 			$fclose(output_file);
 		end
         #30
-        $stop;
+        $finish;
     end
 endmodule

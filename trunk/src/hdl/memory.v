@@ -11,8 +11,10 @@ module memory #(parameter WIDTH = 6) (
     reg[24:0] mem;
 
 	always@ (posedge clk, posedge rst) begin
-	if(mem_write)
-		mem <= data_in;
+		if(rst)
+			mem <= 25'b0;
+		else if(mem_write)
+			mem <= data_in;
 	end
          
         assign data_out = (mem_read==1'b1) ? mem : 25'b0;

@@ -1,0 +1,9 @@
+build/
+*.vvp
+*.vcd
+*.wlf
+wlft*
+work/
+vsim.dbg
+modelsim.ini
+.DS_Store
